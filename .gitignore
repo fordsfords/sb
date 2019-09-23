@@ -1,3 +1,7 @@
+# Test temporary files
+tmp.*
+sb_test
+
 # Prerequisites
 *.d
 
