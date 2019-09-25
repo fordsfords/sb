@@ -13,6 +13,10 @@
 #ifndef SB_H
 #define SB_H
 
+/* This include file uses definitions from these include files. */
+
+#include "err.h"
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */

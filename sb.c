@@ -104,9 +104,7 @@ ERR_F sb_set_len(sb_t *sb, size_t new_size)
 
 ERR_F sb_append_char(sb_t *sb, char in_char)
 {
-  err_t *err = NULL;
-
-  err = sb_chk_expand(sb, 1);  ERR_R(err);
+  ERR(sb_chk_expand(sb, 1));
 
   sb->str[sb->str_len] = in_char;
   sb->str_len++;
@@ -118,9 +116,7 @@ ERR_F sb_append_char(sb_t *sb, char in_char)
 
 ERR_F sb_append_bytes(sb_t *sb, char *in_bytes, size_t in_bytes_len)
 {
-  err_t *err = NULL;
-
-  err = sb_chk_expand(sb, in_bytes_len);  ERR_R(err);
+  ERR(sb_chk_expand(sb, in_bytes_len));
 
   memmove(&sb->str[sb->str_len], in_bytes, in_bytes_len);
   sb->str_len += in_bytes_len;
@@ -132,10 +128,9 @@ ERR_F sb_append_bytes(sb_t *sb, char *in_bytes, size_t in_bytes_len)
 
 ERR_F sb_append_str(sb_t *sb, char *in_str)
 {
-  err_t *err = NULL;
   int in_str_len = strlen(in_str);
 
-  err = sb_append_bytes(sb, in_str, in_str_len);  ERR_R(err);
+  ERR(sb_append_bytes(sb, in_str, in_str_len));
 
   return ERR_OK;
 }  /* sb_append_str */
@@ -143,7 +138,6 @@ ERR_F sb_append_str(sb_t *sb, char *in_str)
 
 ERR_F sb_append_int(sb_t *sb, long long in_int)
 {
-  err_t *err = NULL;
   char tmp_str[128];  /* Longest 64-bit int should be 20 digits plus sign. */
   int snprintf_len;
 
@@ -155,7 +149,7 @@ ERR_F sb_append_int(sb_t *sb, long long in_int)
     ERR_THROW(ERANGE, "sb_append_int: snprintf returned too much");
   }
 
-  err = sb_append_bytes(sb, tmp_str, snprintf_len);  ERR_R(err);
+  ERR(sb_append_bytes(sb, tmp_str, snprintf_len));
 
   return ERR_OK;
 }  /* sb_append_int */
@@ -163,7 +157,6 @@ ERR_F sb_append_int(sb_t *sb, long long in_int)
 
 ERR_F sb_append_uint(sb_t *sb, unsigned long long in_uint)
 {
-  err_t *err = NULL;
   char tmp_str[128];  /* Longest 64-bit int should be 20 digits plus sign. */
   int snprintf_len;
 
@@ -175,7 +168,7 @@ ERR_F sb_append_uint(sb_t *sb, unsigned long long in_uint)
     ERR_THROW(ERANGE, "sb_append_uint: snprintf returned too much");
   }
 
-  err = sb_append_bytes(sb, tmp_str, snprintf_len);  ERR_R(err);
+  ERR(sb_append_bytes(sb, tmp_str, snprintf_len));
 
   return ERR_OK;
 }  /* sb_append_uint */

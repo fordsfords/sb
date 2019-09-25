@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 {
   err_t *err;
   char *sb_str;
-  size_t sb_str_len;
+  size_t str_len;
   sb_t *sb;
 
   err = sb_constructor(&sb, 5);  ERR_A(err);
@@ -63,8 +63,8 @@ int main(int argc, char **argv)
   err = sb_str_ref(sb, &sb_str);  ERR_A(err);
   ASSRT(0 == strcmp(sb_str, "123456789012345678-118446744073709551615xyz"));
 
-  err = sb_str_len(sb, &sb_str_len);  ERR_A(err);
-  ASSRT(sb_str_len == strlen("123456789012345678-118446744073709551615xyz"));
+  err = sb_str_len(sb, &str_len);  ERR_A(err);
+  ASSRT(str_len == strlen("123456789012345678-118446744073709551615xyz"));
 
   err = sb_set_len(sb, 3);  ERR_A(err);
   err = sb_str_ref(sb, &sb_str);  ERR_A(err);
@@ -72,6 +72,9 @@ int main(int argc, char **argv)
 
   err = sb_set_len(sb, 4);
   ASSRT(err != ERR_OK && err->code == EINVAL);
+  err_dispose(err);
+
+  err = sb_destructor(sb);  ERR_A(err);
 
   fprintf(stderr, "OK\n"); fflush(stderr);
 
